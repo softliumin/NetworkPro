@@ -50,7 +50,8 @@ public class LoggingDaytimeServer
 
         private Socket connection;
 
-        DaytimeTask(Socket connection) {
+        DaytimeTask(Socket connection)
+        {
             this.connection = connection;
         }
 
@@ -61,13 +62,15 @@ public class LoggingDaytimeServer
             {
                 Date now = new Date();
                 // write the log entry first in case the client disconnects
+                //先写入日志记录，以防万一客户端断开连接
                 auditLogger.info(now + " " + connection.getRemoteSocketAddress());
+
                 Writer out = new OutputStreamWriter(connection.getOutputStream());
                 out.write(now.toString() +"\r\n");
                 out.flush();
             } catch (IOException ex)
             {
-                // client disconnected; ignore;
+                // client disconnected; ignore; 客户端断开连接
             } finally
             {
                 try
