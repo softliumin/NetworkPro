@@ -13,7 +13,7 @@ public class BinarySaver
     public static void main (String[] args)
     {
         String[] argss = new String[1];
-        argss[0] = "http://img30.360buyimg.com/jr_image/jfs/t1453/235/52887469/33762/cee0a85f/5551f1ceNa245d111.jpg";
+        argss[0] = "https://www.baidu.com/img/bd_logo1.png";
         for (int i = 0; i < argss.length; i++)
         {
             try

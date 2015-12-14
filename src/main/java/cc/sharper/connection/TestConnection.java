@@ -11,7 +11,7 @@ public class TestConnection {
     public static void main(String[] args)
     {
         String[] argss = new String[1];
-        argss[0] = "http://gupiao.jd.com/find/";
+        argss[0] = "https://www.baidu.com";
         if  (argss.length > 0)
         {
             try
