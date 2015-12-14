@@ -2,6 +2,7 @@ package cc.sharper.connection;
 
 import java.io.*;
 import java.net.*;
+import java.util.Date;
 
 
 /**
@@ -22,10 +23,11 @@ public class TestConnection {
                 String ty = uc.getContentType();//text/html;charset=GBK
                 System.out.println("ContentType:"+ty);
                 System.out.println("=====================================");
+                System.out.println(uc.getExpiration()); //过期时间
+                System.out.println(uc.getLastModified()); //修改时间
                 System.out.println(uc.getExpiration());
-                System.out.println(uc.getLastModified());
-                System.out.println(uc.getExpiration());
-                System.out.println(uc.getDate());
+                Date da = new Date(uc.getDate());
+                System.out.println(da);
                 System.out.println(uc.getContentEncoding());//内容编码----》这玩意和字符编码不同
                 System.out.println("=====================================");
                 InputStream raw = uc.getInputStream();
