@@ -1,4 +1,5 @@
 package cc.sharper.Socket;
+
 import java.nio.*;
 import java.nio.channels.*;
 import java.net.*;
@@ -12,19 +13,23 @@ public class EchoServer
 {
     public static int DEFAULT_PORT = 7;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
         int port;
-        try {
+        try
+        {
             port = Integer.parseInt(args[0]);
-        } catch (RuntimeException ex) {
+        } catch (RuntimeException ex)
+        {
             port = DEFAULT_PORT;
         }
         System.out.println("Listening for connections on port " + port);
 
         ServerSocketChannel serverChannel;
         Selector selector;
-        try {
+        try
+        {
             serverChannel = ServerSocketChannel.open();
             ServerSocket ss = serverChannel.socket();
             InetSocketAddress address = new InetSocketAddress(port);
@@ -32,52 +37,64 @@ public class EchoServer
             serverChannel.configureBlocking(false);
             selector = Selector.open();
             serverChannel.register(selector, SelectionKey.OP_ACCEPT);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             ex.printStackTrace();
             return;
         }
 
-        while (true) {
-            try {
+        while (true)
+        {
+            try
+            {
                 selector.select();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 ex.printStackTrace();
                 break;
             }
 
             Set<SelectionKey> readyKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = readyKeys.iterator();
-            while (iterator.hasNext()) {
+            while (iterator.hasNext())
+            {
                 SelectionKey key = iterator.next();
                 iterator.remove();
-                try {
-                    if (key.isAcceptable()) {
+                try
+                {
+                    if (key.isAcceptable())
+                    {
                         ServerSocketChannel server = (ServerSocketChannel) key.channel();
                         SocketChannel client = server.accept();
                         System.out.println("Accepted connection from " + client);
                         client.configureBlocking(false);
-                        SelectionKey clientKey = client.register(
-                                selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
+                        SelectionKey clientKey = client.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
                         ByteBuffer buffer = ByteBuffer.allocate(100);
                         clientKey.attach(buffer);
                     }
-                    if (key.isReadable()) {
+                    if (key.isReadable())
+                    {
                         SocketChannel client = (SocketChannel) key.channel();
                         ByteBuffer output = (ByteBuffer) key.attachment();
                         client.read(output);
                     }
-                    if (key.isWritable()) {
+                    if (key.isWritable())
+                    {
                         SocketChannel client = (SocketChannel) key.channel();
                         ByteBuffer output = (ByteBuffer) key.attachment();
                         output.flip();
                         client.write(output);
                         output.compact();
                     }
-                } catch (IOException ex) {
+                } catch (IOException ex)
+                {
                     key.cancel();
-                    try {
+                    try
+                    {
                         key.channel().close();
-                    } catch (IOException cex) {}
+                    } catch (IOException cex)
+                    {
+                    }
                 }
             }
         }
