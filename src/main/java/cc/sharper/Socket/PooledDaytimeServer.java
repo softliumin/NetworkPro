@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
+ * 使用线程池的daytime服务器
  * Created by liumin3 on 2015/12/14.
  */
 public class PooledDaytimeServer
@@ -13,9 +14,7 @@ public class PooledDaytimeServer
 
     public static void main(String[] args)
     {
-
         ExecutorService pool = Executors.newFixedThreadPool(50);
-
         try
         {
             ServerSocket server = new ServerSocket(PORT);

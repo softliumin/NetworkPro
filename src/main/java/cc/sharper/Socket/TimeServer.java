@@ -17,12 +17,14 @@ public class TimeServer
         // converts between them.
         long differenceBetweenEpochs = 2208988800L;
 
-        try (ServerSocket server = new ServerSocket(PORT))
+        try
         {
+            ServerSocket server = new ServerSocket(PORT);
             while (true)
             {
-                try (Socket connection = server.accept())
+                try
                 {
+                    Socket connection = server.accept();
                     OutputStream out = connection.getOutputStream();
                     Date now = new Date();
                     long msSince1970 = now.getTime();
@@ -39,11 +41,13 @@ public class TimeServer
                     time[3] = (byte) (secondsSince1900 & 0x00000000000000FFL);
                     out.write(time);
                     out.flush();
-                } catch (IOException ex) {
+                } catch (IOException ex)
+                {
                     System.err.println(ex.getMessage());
                 }
             }
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.err.println(ex);
         }
     }

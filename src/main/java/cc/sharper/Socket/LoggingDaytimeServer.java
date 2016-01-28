@@ -19,8 +19,9 @@ public class LoggingDaytimeServer
 
         ExecutorService pool = Executors.newFixedThreadPool(50);
 
-        try (ServerSocket server = new ServerSocket(PORT))
+        try
         {
+                ServerSocket server = new ServerSocket(PORT);
             while (true)
             {
                 try
@@ -55,7 +56,7 @@ public class LoggingDaytimeServer
             this.connection = connection;
         }
 
-        @Override
+        //@Override
         public Void call()
         {
             try

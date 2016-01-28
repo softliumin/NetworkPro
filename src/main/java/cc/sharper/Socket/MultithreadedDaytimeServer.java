@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.Date;
 
 /**
+ * 多线程daytime服务器
  * Created by liumin3 on 2015/12/14.
  */
 public class MultithreadedDaytimeServer
