@@ -18,10 +18,10 @@ public class SocketServer
             while (true)
             {
                 Socket socket = ss.accept();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(socket.getInputStream()));
                 String result = bufferedReader.readLine();
-                System.out.println();
+                System.out.println(result);
             }
         }catch (Exception e)
         {

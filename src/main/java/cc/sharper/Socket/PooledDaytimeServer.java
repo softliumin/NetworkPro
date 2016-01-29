@@ -41,7 +41,7 @@ public class PooledDaytimeServer
         {
             this.connection = connection;
         }
-        //@Override
+
         public Void call()
         {
             try
@@ -60,7 +60,7 @@ public class PooledDaytimeServer
                     connection.close();
                 } catch (IOException e)
                 {
-                    // ignore;
+                   e.printStackTrace();
                 }
             }
             return null;

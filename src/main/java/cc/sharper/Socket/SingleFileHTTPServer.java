@@ -128,19 +128,19 @@ public class SingleFileHTTPServer
 
         try
         {
-            Path path = Paths.get(args[0]);
-            byte[] data = Files.readAllBytes(path);
+//            Path path = Paths.get(args[0]);
+//            byte[] data = Files.readAllBytes(path);
 
-            String contentType = URLConnection.getFileNameMap().getContentTypeFor(args[0]);
-            SingleFileHTTPServer server = new SingleFileHTTPServer(data, encoding,
-                    contentType, port);
-            server.start();
+//            String contentType = URLConnection.getFileNameMap().getContentTypeFor(args[0]);
+//            SingleFileHTTPServer server = new SingleFileHTTPServer(data, encoding,
+//                    contentType, port);
+//            server.start();
 
         } catch (ArrayIndexOutOfBoundsException ex)
         {
             System.out.println(
                     "Usage: java SingleFileHTTPServer filename port encoding");
-        } catch (IOException ex)
+        } catch (Exception ex)
         {
             logger.severe(ex.getMessage());
         }

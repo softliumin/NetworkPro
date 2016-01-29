@@ -62,7 +62,7 @@ public class MultithreadedDaytimeServer
                     connection.close();
                 } catch (IOException e)
                 {
-                    // ignore;
+                    e.printStackTrace();
                 }
             }
         }

@@ -2,7 +2,6 @@ package cc.sharper.Socket;
 
 import java.io.*;
 import java.net.*;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.logging.*;
 
@@ -36,7 +35,6 @@ public class RequestProcessor implements Runnable
         this.connection = connection;
     }
 
-    @Override
     public void run()
     {
         // for security checks
@@ -85,7 +83,7 @@ public class RequestProcessor implements Runnable
                         // Don't let clients outside the document root
                         && theFile.getCanonicalPath().startsWith(root))
                 {
-                    byte[] theData = Files.readAllBytes(theFile.toPath());
+                    byte[] theData = null;//Files.readAllBytes(theFile.toPath());
                     if (version.startsWith("HTTP/"))
                     { // send a MIME header
                         sendHeader(out, "HTTP/1.0 200 OK", contentType, theData.length);

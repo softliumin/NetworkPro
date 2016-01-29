@@ -38,7 +38,7 @@ public class DictClient
         {
             System.err.println(ex);
         } finally
-        { // dispose
+        {
             if (socket != null)
             {
                 try
@@ -46,7 +46,7 @@ public class DictClient
                     socket.close();
                 } catch (IOException ex)
                 {
-                    // ignore
+
                 }
             }
         }
