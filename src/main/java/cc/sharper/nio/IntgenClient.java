@@ -5,20 +5,17 @@ import java.nio.channels.*;
 import java.net.*;
 import java.io.IOException;
 
-public class ChargenClient
+public class IntgenClient
 {
 
-    public static int DEFAULT_PORT = 19;
+    public static int DEFAULT_PORT = 1919;
 
     public static void main(String[] args)
     {
 
-        args = new String[2];
-        args[0] = "localhost";
-        args[1] = "19";
         if (args.length == 0)
         {
-            System.out.println("Usage: java ChargenClient host [port]");
+            System.out.println("Usage: java IntgenClient host [port]");
             return;
         }
 
@@ -35,15 +32,22 @@ public class ChargenClient
         {
             SocketAddress address = new InetSocketAddress(args[0], port);
             SocketChannel client = SocketChannel.open(address);
+            ByteBuffer buffer = ByteBuffer.allocate(4);
+            IntBuffer view = buffer.asIntBuffer();
 
-            ByteBuffer buffer = ByteBuffer.allocate(74);
-            WritableByteChannel out = Channels.newChannel(System.out);
-
-            while (client.read(buffer) != -1)
+            for (int expected = 0; ; expected++)
             {
-                buffer.flip();
-                out.write(buffer);
+                client.read(buffer);
+                int actual = view.get();
                 buffer.clear();
+                view.rewind();
+
+                if (actual != expected)
+                {
+                    System.err.println("Expected " + expected + "; was " + actual);
+                    break;
+                }
+                System.out.println(actual);
             }
         } catch (IOException ex)
         {
