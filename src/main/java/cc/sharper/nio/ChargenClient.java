@@ -5,6 +5,9 @@ import java.nio.channels.*;
 import java.net.*;
 import java.io.IOException;
 
+/**
+ * 这里主要使用缓冲区和通道
+ */
 public class ChargenClient
 {
 
@@ -39,11 +42,11 @@ public class ChargenClient
             ByteBuffer buffer = ByteBuffer.allocate(74);
             WritableByteChannel out = Channels.newChannel(System.out);
 
-            while (client.read(buffer) != -1)
+            while (client.read(buffer) != -1)//读取数据并放到缓冲区
             {
-                buffer.flip();
+                buffer.flip();//准备写入，缓冲区数据不变
                 out.write(buffer);
-                buffer.clear();
+                buffer.clear();//重置回原始状态
             }
         } catch (IOException ex)
         {
