@@ -22,11 +22,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.logging.Logger;
 
-/**
- * @author lilinfeng
- * @version 1.0
- * @date 2014年2月14日
- */
+
 public class TimeClientHandler extends ChannelHandlerAdapter
 {
 

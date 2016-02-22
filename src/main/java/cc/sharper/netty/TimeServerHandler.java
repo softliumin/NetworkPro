@@ -20,11 +20,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
-/**
- * @author lilinfeng
- * @version 1.0
- * @date 2014年2月14日
- */
+
 public class TimeServerHandler extends ChannelHandlerAdapter
 {
 
