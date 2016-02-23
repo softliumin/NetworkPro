@@ -15,6 +15,7 @@
  */
 package cc.sharper.netty.correct;
 
+import cc.sharper.netty.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -32,7 +33,7 @@ public class TimeServer
 
     public void bind(int port) throws Exception
     {
-        // 配置服务端的NIO线程组
+        // 配置服务端的NIO线程组 一个进行网络连接，一个进行SocketChannel的网络读写
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try
@@ -41,7 +42,7 @@ public class TimeServer
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 1024)
-                    .childHandler(new ChildChannelHandler());
+                    .childHandler(new ChildChannelHandler());//绑定io的事件
             // 绑定端口，同步等待成功
             ChannelFuture f = b.bind(port).sync();
 
@@ -60,10 +61,9 @@ public class TimeServer
         @Override
         protected void initChannel(SocketChannel arg0) throws Exception
         {
-            arg0.pipeline().addLast(new LineBasedFrameDecoder(1024));
-            arg0.pipeline().addLast(new StringDecoder());
             arg0.pipeline().addLast(new TimeServerHandler());
         }
+
     }
 
     /**
