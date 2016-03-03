@@ -45,6 +45,11 @@ public class TimeClient
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception
                         {
+                            //添加解码器
+                            ch.pipeline().addLast(
+                                    new LineBasedFrameDecoder(1024));
+                            ch.pipeline().addLast(new StringDecoder());
+
                             ch.pipeline().addLast(new TimeClientHandler());
                         }
                     });

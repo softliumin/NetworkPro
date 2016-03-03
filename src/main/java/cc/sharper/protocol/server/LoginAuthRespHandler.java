@@ -20,12 +20,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter
 
     private String[] whitekList = {"127.0.0.1", "192.168.1.104"};//白名单
 
-    /**
-     * Calls {@link ChannelHandlerContext#fireChannelRead(Object)} to forward to
-     * the next {@link ChannelHandler} in the {@link ChannelPipeline}.
-     * <p/>
-     * Sub-classes may override this method to change behavior.
-     */
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception
@@ -62,8 +57,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter
                 if (isOK)
                     nodeCheck.put(nodeIndex, true);
             }
-            System.out.println("The login response is : " + loginResp
-                    + " body [" + loginResp.getBody() + "]");
+            System.out.println("The login response is : " + loginResp+ " body [" + loginResp.getBody() + "]");
             ctx.writeAndFlush(loginResp);
         } else
         {

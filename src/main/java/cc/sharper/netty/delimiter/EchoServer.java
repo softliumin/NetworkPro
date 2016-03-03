@@ -30,11 +30,7 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-/**
- * @author lilinfeng
- * @version 1.0
- * @date 2014年2月14日
- */
+
 public class EchoServer
 {
     public void bind(int port) throws Exception

@@ -23,9 +23,8 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class TimeServerHandler extends ChannelHandlerAdapter
 {
-
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg)throws Exception
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception
     {
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];

@@ -28,11 +28,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
-/**
- * @author lilinfeng
- * @version 1.0
- * @date 2014年2月14日
- */
+
 public class EchoClient
 {
 
@@ -51,11 +47,13 @@ public class EchoClient
                         public void initChannel(SocketChannel ch)
                                 throws Exception
                         {
+                            //加上新的解码器 特定的分隔符
                             ByteBuf delimiter = Unpooled.copiedBuffer("$_"
                                     .getBytes());
                             ch.pipeline().addLast(
                                     new DelimiterBasedFrameDecoder(1024,
                                             delimiter));
+
                             ch.pipeline().addLast(new StringDecoder());
                             ch.pipeline().addLast(new EchoClientHandler());
                         }

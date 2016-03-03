@@ -4,6 +4,7 @@ import cc.sharper.protocol.NettyConstant;
 import cc.sharper.protocol.codec.NettyMessageDecoder;
 import cc.sharper.protocol.codec.NettyMessageEncoder;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -26,30 +27,44 @@ public class NettyServer
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap b = new ServerBootstrap();
-        b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 100)
-                .handler(new LoggingHandler(LogLevel.INFO))
-                .childHandler(new ChannelInitializer<SocketChannel>()
-                {
-                    @Override
-                    public void initChannel(SocketChannel ch)
-                            throws IOException
+        try
+        {
+            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.SO_BACKLOG, 100)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new ChannelInitializer<SocketChannel>()
                     {
-                        ch.pipeline().addLast(
-                                new NettyMessageDecoder(1024 * 1024, 4, 4));
-                        ch.pipeline().addLast(new NettyMessageEncoder());
-                        ch.pipeline().addLast("readTimeoutHandler",
-                                new ReadTimeoutHandler(50));
-                        ch.pipeline().addLast(new LoginAuthRespHandler());
-                        ch.pipeline().addLast("HeartBeatHandler",
-                                new HeartBeatRespHandler());
-                    }
-                });
+                        @Override
+                        public void initChannel(SocketChannel ch)
+                                throws IOException
+                        {
+                            ch.pipeline().addLast(
+                                    new NettyMessageDecoder(1024 * 1024, 4, 4));
+                            ch.pipeline().addLast(new NettyMessageEncoder());
+                            ch.pipeline().addLast("readTimeoutHandler",
+                                    new ReadTimeoutHandler(50));
+                            ch.pipeline().addLast(new LoginAuthRespHandler());
+                            ch.pipeline().addLast("HeartBeatHandler",
+                                    new HeartBeatRespHandler());
+                        }
+                    });
 
-        // 绑定端口，同步等待成功
-        b.bind(NettyConstant.REMOTEIP, NettyConstant.PORT).sync();
-        System.out.println("Netty server start ok : "
-                + (NettyConstant.REMOTEIP + " : " + NettyConstant.PORT));
+            // 绑定端口，同步等待成功
+            ChannelFuture f = b.bind(NettyConstant.REMOTEIP, NettyConstant.PORT).sync();
+
+            System.out.println("Netty server start ok : "
+                    + (NettyConstant.REMOTEIP + " : " + NettyConstant.PORT));
+
+            // 加上下面代码就好了
+            // 等待服务端监听端口关闭
+             f.channel().closeFuture().sync();
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String[] args) throws Exception
