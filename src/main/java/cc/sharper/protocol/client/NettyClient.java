@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class NettyClient
 {
 
-    private ScheduledExecutorService executor = Executors
-            .newScheduledThreadPool(1);
+    private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
     EventLoopGroup group = new NioEventLoopGroup();
 
     public void connect(int port, String host) throws Exception
@@ -37,26 +37,17 @@ public class NettyClient
                     .handler(new ChannelInitializer<SocketChannel>()
                     {
                         @Override
-                        public void initChannel(SocketChannel ch)
-                                throws Exception
+                        public void initChannel(SocketChannel ch)throws Exception
                         {
-                            ch.pipeline().addLast(
-                                    new NettyMessageDecoder(1024 * 1024, 4, 4));
-                            ch.pipeline().addLast("MessageEncoder",
-                                    new NettyMessageEncoder());
-                            ch.pipeline().addLast("readTimeoutHandler",
-                                    new ReadTimeoutHandler(50));
-                            ch.pipeline().addLast("LoginAuthHandler",
-                                    new LoginAuthReqHandler());
-                            ch.pipeline().addLast("HeartBeatHandler",
-                                    new HeartBeatReqHandler());
+                            ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
+                            ch.pipeline().addLast("MessageEncoder",new NettyMessageEncoder());
+                            ch.pipeline().addLast("readTimeoutHandler",new ReadTimeoutHandler(50));
+                            ch.pipeline().addLast("LoginAuthHandler",new LoginAuthReqHandler());
+                            ch.pipeline().addLast("HeartBeatHandler",new HeartBeatReqHandler());
                         }
                     });
             // 发起异步连接操作
-            ChannelFuture future = b.connect(
-                    new InetSocketAddress(host, port),
-                    new InetSocketAddress(NettyConstant.LOCALIP,
-                            NettyConstant.LOCAL_PORT)).sync();
+            ChannelFuture future = b.connect(new InetSocketAddress(host, port),new InetSocketAddress(NettyConstant.LOCALIP,NettyConstant.LOCAL_PORT)).sync();
 
             future.channel().closeFuture().sync();
 

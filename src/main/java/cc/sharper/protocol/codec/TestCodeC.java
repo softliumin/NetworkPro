@@ -32,11 +32,11 @@ public class TestCodeC
         Map<String, Object> attachment = new HashMap<String, Object>();
         for (int i = 0; i < 10; i++)
         {
-            attachment.put("ciyt --> " + i, "lilinfeng " + i);
+            attachment.put("键 " + i, "值 " + i);
         }
         header.setAttachment(attachment);
         nettyMessage.setHeader(header);
-        nettyMessage.setBody("abcdefg-----------------------AAAAAA");
+        nettyMessage.setBody("我是消息体");
         return nettyMessage;
     }
 
@@ -66,6 +66,7 @@ public class TestCodeC
         key = null;
         keyArray = null;
         value = null;
+
         if (msg.getBody() != null)
         {
             marshallingEncoder.encode(msg.getBody(), sendBuf);

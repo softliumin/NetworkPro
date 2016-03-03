@@ -1,18 +1,3 @@
-/*
- * Copyright 2013-2018 Lilinfeng.
- *  
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *  
- *      http://www.apache.org/licenses/LICENSE-2.0
- *  
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cc.sharper.protocol.codec;
 
 import io.netty.buffer.ByteBuf;
@@ -28,16 +13,8 @@ import org.jboss.marshalling.Unmarshaller;
  */
 public class MarshallingDecoder
 {
-
     private final Unmarshaller unmarshaller;
 
-    /**
-     * Creates a new decoder whose maximum object size is {@code 1048576} bytes.
-     * If the size of the received object is greater than {@code 1048576} bytes,
-     * a {@link StreamCorruptedException} will be raised.
-     *
-     * @throws IOException
-     */
     public MarshallingDecoder() throws IOException
     {
         unmarshaller = MarshallingCodecFactory.buildUnMarshalling();
