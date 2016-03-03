@@ -27,6 +27,7 @@ public class NettyServer
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap b = new ServerBootstrap();
+
         try
         {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
@@ -40,10 +41,14 @@ public class NettyServer
                         {
                             ch.pipeline().addLast(
                                     new NettyMessageDecoder(1024 * 1024, 4, 4));
+
                             ch.pipeline().addLast(new NettyMessageEncoder());
+
                             ch.pipeline().addLast("readTimeoutHandler",
                                     new ReadTimeoutHandler(50));
+
                             ch.pipeline().addLast(new LoginAuthRespHandler());
+
                             ch.pipeline().addLast("HeartBeatHandler",
                                     new HeartBeatRespHandler());
                         }
@@ -57,7 +62,9 @@ public class NettyServer
 
             // 加上下面代码就好了
             // 等待服务端监听端口关闭
-             f.channel().closeFuture().sync();
+
+            //Alpha2版本中要加上下面的一句话
+            // f.channel().closeFuture().sync();
 
 
         }catch (Exception e)
