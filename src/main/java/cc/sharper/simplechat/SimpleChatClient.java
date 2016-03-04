@@ -10,36 +10,46 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 
+public class SimpleChatClient
+{
 
-public class SimpleChatClient {
-
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception
+    {
         new SimpleChatClient("localhost", 8080).run();
     }
 
     private final String host;
     private final int port;
 
-    public SimpleChatClient(String host, int port){
+    public SimpleChatClient(String host, int port)
+    {
         this.host = host;
         this.port = port;
     }
 
-    public void run() throws Exception{
+    public void run() throws Exception
+    {
         EventLoopGroup group = new NioEventLoopGroup();
-        try {
-            Bootstrap bootstrap  = new Bootstrap()
-                    .group(group)
-                    .channel(NioSocketChannel.class)
-                    .handler(new SimpleChatClientInitializer());
+        try
+        {
+            Bootstrap bootstrap = new Bootstrap();
+
+            bootstrap.group(group);
+            bootstrap.channel(NioSocketChannel.class);
+            bootstrap.handler(new SimpleChatClientInitializer());
+
             Channel channel = bootstrap.connect(host, port).sync().channel();
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            while(true){
+
+            while (true)
+            {
                 channel.writeAndFlush(in.readLine() + "\r\n");
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
+        } finally
+        {
             group.shutdownGracefully();
         }
 
